@@ -81,7 +81,7 @@ Trainable params: 168,625
 Non-trainable params: 160
 ____________________________________________________________________________________________________
 
-![alt tag](https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/tree/path/to/img.png)
+![alt tag](https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-BehavioralClonning-P3/model.png)
 
 ## Preprocessing
 All images are cut to a size of (90, 320, 3). I applied normalization as the first layer of my model. 
