@@ -5,6 +5,10 @@ import random
 
 
 class Preprocessing():
+    # Part of the augmentation code is directly copied from belwo address. Except, trans_image other preprocessing
+    # mostly done for generalization purposes
+
+    # https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9#.y9xxe544j
     @staticmethod
     def augment_brightness_camera_images(image):
         image1 = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
@@ -14,6 +18,7 @@ class Preprocessing():
         image1 = cv2.cvtColor(image1, cv2.COLOR_HSV2RGB)
         return image1
 
+    # https://chatbotslife.com/using-augmentation-to-mimic-human-driving-496b569760a9#.y9xxe544j
     @staticmethod
     def trans_image(image, steer, trans_range):
         shape = np.shape(image)
