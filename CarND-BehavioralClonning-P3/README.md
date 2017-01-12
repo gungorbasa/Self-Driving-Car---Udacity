@@ -12,7 +12,8 @@ Tensorflow, Keras
 ## Model
 
 ____________________
-Layer (type)                     Output Shape          Param #     Connected to                     
+Layer (type)                     Output Shape          Param #     Connected to  
+
 ====================================================================================================
 lambda_1 (Lambda)                (None, 90, 320, 3)    0           lambda_input_1[0][0]             
 ____________________________________________________________________________________________________
@@ -106,6 +107,8 @@ Second training is made on both original and augmented data. Generators is used 
 #####Training-3 Epoch: 10 
 Last training is again made on provided Udacity data. (Same with first training)
 
+#####Optimizer:
+Adam Optimizer with learning rate 0.0001
 
 ## License
 
