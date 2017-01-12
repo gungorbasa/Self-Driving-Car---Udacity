@@ -84,6 +84,8 @@ ________________________________________________________________________________
 
 ![alt tag](https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-BehavioralClonning-P3/model.png)
 
+![alt tag](https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-BehavioralClonning-P3/model_tensorboard)
+
 ## Preprocessing
 All images are cut to a size of (90, 320, 3). I applied normalization as the first layer of my model. 
 
