@@ -114,22 +114,23 @@ Also, I calculated car's relative position to the center in `calculate_relative_
 
 ####6. End Result
 At the end of the pipeline, I created the green region which implies safe zone between lanes, then I applied inverse perspective transformation to this region and combined it with input image. `translate_to_real_world_image()` method in `FindLanes.py` shows this procedure.
-<p align="center">
+
 ***End Result***
 ![End Result][image7]
-</p>
+
 
 
 ---
 
 ###Pipeline on Video
 To find lanes, I used 20 frame window size for videos. For each lane, I looked over last 20 frames and based on findings I fit polynomial. This scheme is implemented in `Smooth.py` file.
-
-
+<p align="center">
+***Project Video Output***
 <iframe width="560" height="315" src="https://www.youtube.com/embed/eTK430ubsnQ" frameborder="0" allowfullscreen></iframe>
 
 ***Challenge Video Output***
 <iframe width="560" height="315" src="https://www.youtube.com/embed/XnJBmGWdZjc" frameborder="0" allowfullscreen></iframe>
+</p>
 
 ---
 
