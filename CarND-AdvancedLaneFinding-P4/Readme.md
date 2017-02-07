@@ -35,15 +35,13 @@ The goals / steps of this project are the following:
 
 ###1) Camera Calibration
 Two major distortions introduced by cheap pinhole cameras are radial distortion and tangential distortion. Luckily, these type of distortions can be fixed with camera calibration. To reduce these unwanted affects I used OpenCV library `cv2.findChessboardCorners()`, `cv2.calibrateCamera()`, and `cv2.undistort()` methods.`calibrate_camera()` function in IPython code cell 2 creates required matrixes to undistort image. `undistort()` function in the same cell, uses these values and undistorts the image.
-<p align="center">
 
 ***Original Chessboard Image***
 ![Original Chessboard Image][image8]
-</p>
-<p align="center">
+
 ***Undistorted Chessboard Image***
 ![Undistorted Chessboard Image][image9]
-</p>
+
 
 To apply these methods, I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
 
@@ -53,17 +51,17 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 ###Pipeline (single images)
 `pipeline()` method in IPython file cell 5, gets an image as an input and apply transformations, masks etc. and outputs image with safe zone on it.
-<p align="center">
+
 ***Input to Pipeline***
 ![Original Image][image1]
-</p>
+
 
 ####1. Undistort Image
 Undistortion procedure is explained above. 
-<p align="center">
+
 ***Undistorted Image***
 ![Undistorted Image][image2]
-</p>
+
 
 ####2. Apply Perspective Transformation
 
@@ -77,10 +75,10 @@ The code for my perspective transform includes a function called `transform_imag
 | 540, 480      | 205, 0        	 |
 
 This procedure creates birds eye view of the image.
-<p align="center">
+
 ***Birds Eye View***
 ![Birds Eye][image3]
-</p>
+
 
 ####3. Color Masking, Gradiend and other techniques
 I transformed image into HSV format and applied histogram equalization with clahe algorithm on V channel. THis helped me to detect lanes in the really bright images. After that, to detect lanes I appleid white pass, yellow pass filters on HSV image. `color_threshold()` function in cell 5 shows this procedure.
@@ -88,10 +86,10 @@ I transformed image into HSV format and applied histogram equalization with clah
 Also, to detect lanes better, I applied mag threshold. Codes for this can be found in `sobel.py` file.
 
 At the end, I combined all these filters, applied region masking and remove noise to create a binary mask for image. `region_of_interest()` and `remove_noise()` functions in IPython notebook shows these procedures.
-<p align="center">
+
 ***Binary Mask***
 ![Binary Mask][image5]
-</p>
+
 
 
 
@@ -101,10 +99,10 @@ I applied 2 different methods to find lanes on the image. `exhaustive_search()` 
 `exhaustive_search()` calculates histogram and try to understand which points belong to the left which points belong to the right lane. After these points are decided, we calculate second order polynomial with `numpy.polyfit()` function.
 
 `fast_search()` methods uses previous frame to calculate polynomials faster. In this function, we use previous lanes position. With this function, we do not need to look all image to find lanes.
-<p align="center">
+
 ***Road Lanes***
 ![Road Lanes][image6]
-</p>
+
 
 ####5. Radius of Curvature and Cars Relative Postion to Center of Lane
 
@@ -124,13 +122,13 @@ At the end of the pipeline, I created the green region which implies safe zone b
 
 ###Pipeline on Video
 To find lanes, I used 20 frame window size for videos. For each lane, I looked over last 20 frames and based on findings I fit polynomial. This scheme is implemented in `Smooth.py` file.
-<p align="center">
+
 ***Project Video Output***
 <iframe width="560" height="315" src="https://www.youtube.com/embed/eTK430ubsnQ" frameborder="0" allowfullscreen></iframe>
 
 ***Challenge Video Output***
 <iframe width="560" height="315" src="https://www.youtube.com/embed/XnJBmGWdZjc" frameborder="0" allowfullscreen></iframe>
-</p>
+
 
 ---
 
