@@ -124,13 +124,14 @@ At the end of the pipeline, I created the green region which implies safe zone b
 To find lanes, I used 20 frame window size for videos. For each lane, I looked over last 20 frames and based on findings I fit polynomial. This scheme is implemented in `Smooth.py` file.
 
 ***Project Video Output***
+
 [![Project Video Output](https://img.youtube.com/vi/eTK430ubsnQ/0.jpg)](https://www.youtube.com/watch?v=eTK430ubsnQ)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/eTK430ubsnQ" frameborder="0" allowfullscreen></iframe>
 
 ***Challenge Video Output***
+
 [![Challenge Video Output](https://img.youtube.com/vi/XnJBmGWdZjc/0.jpg)](https://www.youtube.com/watch?v=XnJBmGWdZjc)
-<iframe width="560" height="315" src="https://www.youtube.com/embed/XnJBmGWdZjc" frameborder="0" allowfullscreen></iframe>
+
 
 
 ---
