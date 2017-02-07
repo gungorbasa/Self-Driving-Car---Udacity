@@ -20,15 +20,15 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 
-[image1]: ./output_images/solidWhiteRight.jpg "Solid White Line Road"
-[image2]: ./output_images/undistorted_img.jpg "Undistorted Image"
-[image3]: ./output_images/perspected_img.jpg "Bird Eye"
-[image4]: ./output_images/finalized.jpg "End Result"
-[image5]: ./output_images/mask.png "Binary Mask Example"
-[image6]: ./output_images/lanes.png "Road Lanes"
-[image7]: ./output_images/finalized.jpg "Final Output"
-[image8]: ./output_images/calibration1.jpg "Uncalibrated Image"
-[image9]: ./output_images/calibrated_calibration1.jpg "Calibrated Image"
+[image1]: https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-AdvancedLaneFinding-P4/output_images/solidWhiteRight.jpg "Solid White Line Road"
+[image2]: https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-AdvancedLaneFinding-P4/output_images/undistorted_img.jpg "Undistorted Image"
+[image3]: https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-AdvancedLaneFinding-P4/output_images/perspected_img.jpg "Bird Eye"
+[image4]: https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-AdvancedLaneFinding-P4/output_images/finalized.jpg "End Result"
+[image5]: https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-AdvancedLaneFinding-P4/output_images/mask.png "Binary Mask Example"
+[image6]: https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-AdvancedLaneFinding-P4/output_images/lanes.png "Road Lanes"
+[image7]: https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-AdvancedLaneFinding-P4/output_images/finalized.jpg "Final Output"
+[image8]: https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-AdvancedLaneFinding-P4/output_images/calibration1.jpg "Uncalibrated Image"
+[image9]: https://raw.githubusercontent.com/gungorbasa/Self-Driving-Car---Udacity/master/CarND-AdvancedLaneFinding-P4/output_images/calibrated_calibration1.jpg "Calibrated Image"
 [video1]: ./project_video.mp4 "Video"
 
 ---
