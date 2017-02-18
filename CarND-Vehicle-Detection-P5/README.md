@@ -21,6 +21,8 @@ The goals / steps of this project are the following:
 [image5]: ./Images/vehicle_rec.png
 [image6]: ./Images/heat_map.png
 [image7]: ./Images/one_rec.png
+[image8]: ./Images/roi.png
+[image9]: ./Images/sliding.png
 [video1]: ./project_video.mp4
 
 ###Histogram of Oriented Gradients (HOG)
@@ -44,11 +46,22 @@ I used multiple different numbers to optimize vechicle detection. I found a swee
 I used Linear-SVM classifier to classify vehicle and non vehicle images. I splitted my data into 2 parts. I used 80% of data to train 20% of the data for test. As a resutl, on the test set, my model achieved %99 percent accuracy.
 
 ####4. Sliding Window and Vehicle Finding
-I specify a region in the image. Then used sliding window technique to find all possible windows. After that, I used trained classifier to decide if the current window has vehicle or not. If there is a vehicle in the window, window is added to our list. This procedure can be seen in `FeatureDetection.py` (`slide_window()` and `search_windows()`). Below picture show the final windows.
+First, I created a region of interest by cutting image. On the original sized image, I remove the top 400 pixels and left 300 pixels of the image. The reason is top part of the image contains the horizon there is no road on the left side of the image. This helped me to decrease the false positives in my method. Also, since the area we are looking is smaller, it made algortihm run faster. Roi image can be seen below.
+![Region of Interest][image8]
+After having roi image, all possible windows with size of `64x64` for original image with `32x32` stride size windows calculated.
+![Sliding Window on ROI image][image9]
+Then, for each window in above image, we predict if it is a vehicle image or not. If it is a vehicle image, we added to our list and draw end result on the image. Below image shows end result for this procedure.
+
+Also, finding bigger or smaller cars on the image, I resize the whole image with different scalers and use the same size window(`64x64`). Even though we are using the same window size and stride, the fact that image size is different will help us to find different size cars. In the `P5.ipynb` look at `pipeline()` method.
+
 ![Detected Vehicles][image5]
 
 ####5. Decreasing False Detection
-To decrease the possibility of false detection, I used heat map method. In `FeatureDetection.py` file `add_heat()` and `apply_threshold()` methods are used to create one bounding box for a car.
+To enhance the results and decrease the false-positives, I used heat map method. In this method, first I created a zero mask for the image. Then for each bounding boxes found on the above algorithm, I increased the pixels on the mask. Then, to get better results, I applied a threshold on this mask(For example, if there are less than 2 bounding boxes defined for specific pixel, dont take those pixels and make them zero as well). This proedure enhance the algorithm further to decrease the false positive rates. This can be seen on below blue image. 
+
+At the end, I used `scipy` `labels` method to create final mask and take this labels as final bounding boxes(this final mask shows high confidence predictions). These bounding boxes is drawn on original images. In `FeatureDetection.py` file `add_heat()` and `apply_threshold()` methods shows these procedures.
+
+
 ![Heat map for above image][image6]
 ![Found rectangles][image7]
 
