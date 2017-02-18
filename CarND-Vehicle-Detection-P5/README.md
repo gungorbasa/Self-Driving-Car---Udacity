@@ -46,10 +46,15 @@ I used multiple different numbers to optimize vechicle detection. I found a swee
 I used Linear-SVM classifier to classify vehicle and non vehicle images. I splitted my data into 2 parts. I used 80% of data to train 20% of the data for test. As a resutl, on the test set, my model achieved %99 percent accuracy.
 
 ####4. Sliding Window and Vehicle Finding
+
 First, I created a region of interest by cutting image. On the original sized image, I remove the top 400 pixels and left 300 pixels of the image. The reason is top part of the image contains the horizon there is no road on the left side of the image. This helped me to decrease the false positives in my method. Also, since the area we are looking is smaller, it made algortihm run faster. Roi image can be seen below.
+
 ![Region of Interest][image8]
+
 After having roi image, all possible windows with size of `64x64` for original image with `32x32` stride size windows calculated.
+
 ![Sliding Window on ROI image][image9]
+
 Then, for each window in above image, we predict if it is a vehicle image or not. If it is a vehicle image, we added to our list and draw end result on the image. Below image shows end result for this procedure.
 
 Also, finding bigger or smaller cars on the image, I resize the whole image with different scalers and use the same size window(`64x64`). Even though we are using the same window size and stride, the fact that image size is different will help us to find different size cars. In the `P5.ipynb` look at `pipeline()` method.
