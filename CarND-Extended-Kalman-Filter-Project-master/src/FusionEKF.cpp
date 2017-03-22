@@ -98,9 +98,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	previous_timestamp_ = measurement_pack.timestamp_;
 
 	// Calculating Process Covariance Matrix
-	Q_[0] = dt4/4*noise_ax; Q_[2] = dt3/2*noise_ax; Q_[5] = dt4/4*noise_ay;
-	Q_[7] = dt3/2*noise_ay; Q_[8] = dt3/2*noise_ax; Q_[10] = dt2*noise_ax;
-	Q_[13] = dt3/2*noise_ay; Q_[15] = dt2*noise_ay;
+	Q_ << dt4/4*noise_ax, 0, dt3/2*noise_ax, 0,
+		  0, dt4/4*noise_ay, 0, dt3/2*noise_ay,
+		  dt3/2*noise_ax, 0, dt2*noise_ax, 0,
+		  0, dt3/2*noise_ay, 0, dt2*noise_ay;
 
 	ekf_.Q_ = Q_;
 
