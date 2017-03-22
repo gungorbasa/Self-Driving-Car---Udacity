@@ -6,6 +6,7 @@ Kalman Filter is a linear quadratic estimator, which estimates of unknown variab
 We used KF for Lidar data and EKF for Radar data and combined all these to predict state of the object.
 
 https://en.wikipedia.org/wiki/Kalman_filter
+
 https://en.wikipedia.org/wiki/Extended_Kalman_filter
 
 ---
