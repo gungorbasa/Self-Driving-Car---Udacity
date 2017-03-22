@@ -21,10 +21,12 @@ void KalmanFilter::Init(VectorXd &x_in, MatrixXd &P_in, MatrixXd &F_in,
 
 void KalmanFilter::Predict() {
 	// Kalman and Extended Kalman Filter Predict step
+	std::cout << "P: " << P_ << std::endl;
 	VectorXd process_noise = VectorXd(4, 1);
 	process_noise << x_[2], x_[3], x_[2], x_[3];
 	x_ = F_ * x_; //+ process_noise;
 	P_ = F_ * P_ * F_.transpose() + Q_;
+
 }
 
 void KalmanFilter::Update(const VectorXd &z) {
@@ -50,7 +52,6 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	VectorXd y = z - polar;
 	MatrixXd S = (Hj * P_ * Hjt) + R_;
 	MatrixXd K = P_ * Hjt * S.inverse();
-	std::cout << K.size() << " " << H_.size() << std::endl;
 	MatrixXd I = MatrixXd::Identity(x_.size(), x_.size());
 	x_ = x_ + (K * y);
 	P_ = (I - K * Hj) * P_;

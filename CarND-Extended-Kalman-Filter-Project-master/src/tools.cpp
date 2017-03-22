@@ -32,18 +32,22 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 	// Calculating Jakobian Matrix
 	// Extract values from state matrix
-	float px = x_state(0);
-	float py = x_state(1);
-	float vx = x_state(2);
-	float vy = x_state(3);
+	double px = x_state(0);
+	double py = x_state(1);
+	double vx = x_state(2);
+	double vy = x_state(3);
 
 	// Calculate denominator variations
 	double denom = px * px + py * py;
 	double sdenom = sqrt(denom);
-	double cdenom = cbrt(denom);
+	double cdenom = pow(denom, 1.5);
 
 	// Jakobian matrix initialization
 	MatrixXd Hj(3, 4);
+	Hj << 0.0, 0.0, 0.0, 0.0,
+		  0.0, 0.0, 0.0, 0.0,
+		  0.0, 0.0, 0.0, 0.0;
+
 	// Chech for division by zero
 	if (denom > 0.000001) {
 		// If denominator is not zero, calculate jakobian matrix

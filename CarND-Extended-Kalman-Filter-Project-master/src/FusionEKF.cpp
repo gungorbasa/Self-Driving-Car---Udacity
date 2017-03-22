@@ -42,6 +42,8 @@ FusionEKF::FusionEKF() {
 
 	H_laser_ << 1, 0, 0, 0,
 			    0, 1, 0, 0;
+
+	dt = dt2 = dt3 = dt4 = 0.0;
 }
 
 /**
@@ -66,23 +68,27 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 		cout << "EKF: " << endl;
 		ekf_.x_ = VectorXd(4);
 		ekf_.x_ << 1, 1, 1, 1;
-
+		cout << "X_ init: " << ekf_.x_ << endl;
 		if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
 			float phi = measurement_pack.raw_measurements_[1];
 			float x = measurement_pack.raw_measurements_[0] * cos(phi);
 			float y = measurement_pack.raw_measurements_[0] * sin(phi);
-			float vx = 0.0;
-			float vy = 0.0;
+			float vx = measurement_pack.raw_measurements_[2] * cos(phi) ;
+			float vy = measurement_pack.raw_measurements_[2] * sin(phi);
 
 			VectorXd cartesian_state = VectorXd(4);
 			cartesian_state << x, y, vx, vy;
 			ekf_.x_ = cartesian_state;
+			cout << "Polar Initialized: " << ekf_.x_ << endl;
 		} else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
-			ekf_.x_ = measurement_pack.raw_measurements_;
+			ekf_.x_ << measurement_pack.raw_measurements_[0], measurement_pack.raw_measurements_[1],
+					   0.0, 0.0;
+			cout << "Cartesian Initialized: " << measurement_pack.raw_measurements_ << endl;
 		}
 
 		// done initializing, no need to predict or update
 		is_initialized_ = true;
+
 		return;
 	}
 
@@ -97,12 +103,17 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	 * Update the process noise covariance matrix.
 	 * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
 	 */
-	float noise_ax = 9;
-	float noise_ay = 9;
-	float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;
-	float dt2 = dt * dt;
-	float dt3 = dt * dt2;
-	float dt4 = dt * dt3;
+	double noise_ax = 9;
+	double noise_ay = 9;
+	/* If Radar and Lidar measurement have the same timestamp
+	 * use older dt to calculate everything. If they are different,
+	 * calculate normally
+	*/
+	dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;
+	dt2 = dt * dt;
+	dt3 = dt * dt2;
+	dt4 = dt * dt3;
+
 	previous_timestamp_ = measurement_pack.timestamp_;
 
 	// Calculating Process Covariance Matrix

@@ -45,6 +45,10 @@ private:
 	Eigen::MatrixXd H_laser_;
 	Eigen::MatrixXd Hj_;
 	Eigen::MatrixXd Q_;
+	float dt;
+	float dt2;
+	float dt3;
+	float dt4;
 };
 
 #endif /* FusionEKF_H_ */
