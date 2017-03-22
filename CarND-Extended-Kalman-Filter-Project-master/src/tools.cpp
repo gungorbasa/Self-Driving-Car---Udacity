@@ -45,7 +45,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 	// Jakobian matrix initialization
 	MatrixXd Hj(3, 4);
 	// Chech for division by zero
-	if (fabs(denom) > 0.000001) {
+	if (denom > 0.000001) {
 		// If denominator is not zero, calculate jakobian matrix
 		Hj << px / sdenom, py / sdenom, 0, 0, -py / denom, px / denom, 0, 0, (py
 				* (vx * py - vy * px)) / cdenom, (px * (vy * px - vx * py))
@@ -53,6 +53,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 	} else {
 		std::cout << "Jakobian is bad.." << std::endl;
 	}
+	std::cout << "Jakobian Matrix: " << Hj << std::endl;
 
 	return Hj;
 }

@@ -42,7 +42,18 @@ void KalmanFilter::Update(const VectorXd &z) {
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
 	// Extended Kalman Filter Update step
+	Tools tools = Tools();
+	MatrixXd Hj = tools.CalculateJacobian(x_);
+	MatrixXd Hjt = Hj.transpose();
+	VectorXd polar = this->CartesianToPolar(x_);
 
+	VectorXd y = z - polar;
+	MatrixXd S = (Hj * P_ * Hjt) + R_;
+	MatrixXd K = P_ * Hjt * S.inverse();
+	std::cout << K.size() << " " << H_.size() << std::endl;
+	MatrixXd I = MatrixXd::Identity(x_.size(), x_.size());
+	x_ = x_ + (K * y);
+	P_ = (I - K * Hj) * P_;
 }
 
 VectorXd KalmanFilter::CartesianToPolar(const VectorXd &x_state) {
