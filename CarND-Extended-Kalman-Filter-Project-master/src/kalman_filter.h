@@ -1,6 +1,7 @@
 #ifndef KALMAN_FILTER_H_
 #define KALMAN_FILTER_H_
 #include "Eigen/Dense"
+#include <iostream>
 
 class KalmanFilter {
 public:
@@ -64,6 +65,9 @@ public:
 	 * @param z The measurement at k+1
 	 */
 	void UpdateEKF(const Eigen::VectorXd &z);
+
+private:
+	Eigen::VectorXd CartesianToPolar(const Eigen::VectorXd &x_state);
 
 };
 
