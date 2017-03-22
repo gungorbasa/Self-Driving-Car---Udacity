@@ -56,8 +56,9 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 				/ cdenom, px / sdenom, py / sdenom;
 	} else {
 		std::cout << "Jakobian is bad.." << std::endl;
+		std::cout << "Jakobian Matrix: " << Hj << std::endl;
 	}
-	std::cout << "Jakobian Matrix: " << Hj << std::endl;
+
 
 	return Hj;
 }

@@ -43,7 +43,6 @@ private:
 	Eigen::MatrixXd R_laser_;
 	Eigen::MatrixXd R_radar_;
 	Eigen::MatrixXd H_laser_;
-	Eigen::MatrixXd Hj_;
 	Eigen::MatrixXd Q_;
 	float dt;
 	float dt2;
