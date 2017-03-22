@@ -106,32 +106,33 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	 * use older dt to calculate everything. If they are different,
 	 * calculate normally
 	*/
-	dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;
-	dt2 = dt * dt;
-	dt3 = dt * dt2;
-	dt4 = dt * dt3;
-
-	previous_timestamp_ = measurement_pack.timestamp_;
-
-	// Calculating Process Covariance Matrix
-	Q_ << dt4/4*noise_ax, 0, dt3/2*noise_ax, 0,
-		  0, dt4/4*noise_ay, 0, dt3/2*noise_ay,
-		  dt3/2*noise_ax, 0, dt2*noise_ax, 0,
-		  0, dt3/2*noise_ay, 0, dt2*noise_ay;
-	ekf_.H_ = H_laser_;
 
 
-	ekf_.Q_ = Q_;
+	/* Decreases the number of calculations. If the timestamps
+	 *  are the same no need to predict again
+	*/
+	if (measurement_pack.timestamp_ - previous_timestamp_ != 0.0) {
+		dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;
+		dt2 = dt * dt;
+		dt3 = dt * dt2;
+		dt4 = dt * dt3;
 
-	// Calculating F matrix
-	ekf_.F_ = MatrixXd(4,4);
-	ekf_.F_ << 1, 0, dt, 0,
-			   0, 1, 0, dt,
-			   0, 0, 1, 0,
-			   0, 0, 0, 1;
+		previous_timestamp_ = measurement_pack.timestamp_;
 
+		// Calculating Process Covariance Matrix
+		Q_ << dt4 / 4 * noise_ax, 0, dt3 / 2 * noise_ax, 0, 0, dt4 / 4
+				* noise_ay, 0, dt3 / 2 * noise_ay, dt3 / 2 * noise_ax, 0, dt2
+				* noise_ax, 0, 0, dt3 / 2 * noise_ay, 0, dt2 * noise_ay;
+		ekf_.H_ = H_laser_;
 
-	ekf_.Predict();
+		ekf_.Q_ = Q_;
+
+		// Calculating F matrix
+		ekf_.F_ = MatrixXd(4, 4);
+		ekf_.F_ << 1, 0, dt, 0, 0, 1, 0, dt, 0, 0, 1, 0, 0, 0, 0, 1;
+
+		ekf_.Predict();
+	}
 
 	/*****************************************************************************
 	 *  Update
