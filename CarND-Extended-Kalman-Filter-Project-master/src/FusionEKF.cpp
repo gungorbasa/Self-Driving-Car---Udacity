@@ -33,7 +33,7 @@ FusionEKF::FusionEKF() {
 	 * Finish initializing the FusionEKF.
 	 * Set the process and measurement noises
 	 */
-
+	Q_ = MatrixXd(4, 4);
 }
 
 /**
@@ -60,13 +60,17 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 		ekf_.x_ << 1, 1, 1, 1;
 
 		if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
-			/**
-			 Convert radar from polar to cartesian coordinates and initialize state.
-			 */
+			float phi = measurement_pack.raw_measurements_[1];
+			float x = measurement_pack.raw_measurements_[0] * cos(phi);
+			float y = measurement_pack.raw_measurements_[0] * sin(phi);
+			float vx = 0.0;
+			float vy = 0.0;
+
+			VectorXd cartesian_state = VectorXd(4);
+			cartesian_state << x, y, vx, vy;
+			ekf_.x_ = cartesian_state;
 		} else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
-			/**
-			 Initialize state.
-			 */
+			ekf_.x_ = measurement_pack.raw_measurements_;
 		}
 
 		// done initializing, no need to predict or update
@@ -85,6 +89,28 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	 * Update the process noise covariance matrix.
 	 * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
 	 */
+	float noise_ax = 9;
+	float noise_ay = 9;
+	float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;
+	float dt2 = dt * dt;
+	float dt3 = dt * dt2;
+	float dt4 = dt * dt3;
+	previous_timestamp_ = measurement_pack.timestamp_;
+
+	// Calculating Process Covariance Matrix
+	Q_[0] = dt4/4*noise_ax; Q_[2] = dt3/2*noise_ax; Q_[5] = dt4/4*noise_ay;
+	Q_[7] = dt3/2*noise_ay; Q_[8] = dt3/2*noise_ax; Q_[10] = dt2*noise_ax;
+	Q_[13] = dt3/2*noise_ay; Q_[15] = dt2*noise_ay;
+
+	ekf_.Q_ = Q_;
+
+	// Calculating F matrix
+	ekf_.F_ = MatrixXd(4,4);
+	ekf_.F_ << 1, 0, dt, 0,
+			   0, 1, 0, dt,
+			   0, 0, 1, 0,
+			   0, 0, 0, 1;
+
 
 	ekf_.Predict();
 
@@ -100,8 +126,10 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
 	if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
 		// Radar updates
+		ekf_.R_ = R_radar_;
 	} else {
 		// Laser updates
+		ekf_.R_ = R_laser_;
 	}
 
 	// print the output

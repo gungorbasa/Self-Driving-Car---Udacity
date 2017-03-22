@@ -21,9 +21,9 @@ void KalmanFilter::Init(VectorXd &x_in, MatrixXd &P_in, MatrixXd &F_in,
 
 void KalmanFilter::Predict() {
 	// Kalmand and Extended Kalman Filter Predict step
-	VectorXd u = VectorXd(4, 1);
-	u << x_[2], x_[3], x_[2], x_[3];
-	x_ = F_ * x_ + u;
+	VectorXd process_noise = VectorXd(4, 1);
+	process_noise << x_[2], x_[3], x_[2], x_[3];
+	x_ = F_ * x_; //+ process_noise;
 	P_ = F_ * P_ * F_.transpose() + Q_;
 }
 
@@ -53,13 +53,14 @@ VectorXd KalmanFilter::CartesianToPolar(const VectorXd &x_state) {
 	double vy = x_state[3];
 
 	double ro = sqrt(px * px + py * py);
-	double phi = atan(py / px);
+//	double phi = atan(py / px);
+	double phi = atan2(py, px);
 	// Normalize phi
-	if (-M_PI > phi) {
-		phi += 2 * M_PI;
-	} else if (M_PI < phi) {
-		phi -= 2 * M_PI;
-	}
+//	if (-M_PI > phi) {
+//		phi += 2 * M_PI;
+//	} else if (M_PI < phi) {
+//		phi -= 2 * M_PI;
+//	}
 
 	if (-M_PI > phi || M_PI < phi) {
 		std::cerr << "Normalization problem.." << std::endl;
