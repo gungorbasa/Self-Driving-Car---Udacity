@@ -20,7 +20,7 @@ void KalmanFilter::Init(VectorXd &x_in, MatrixXd &P_in, MatrixXd &F_in,
 }
 
 void KalmanFilter::Predict() {
-	// Kalmand and Extended Kalman Filter Predict step
+	// Kalman and Extended Kalman Filter Predict step
 	VectorXd process_noise = VectorXd(4, 1);
 	process_noise << x_[2], x_[3], x_[2], x_[3];
 	x_ = F_ * x_; //+ process_noise;
