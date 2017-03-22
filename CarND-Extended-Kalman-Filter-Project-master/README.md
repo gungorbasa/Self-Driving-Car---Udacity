@@ -1,7 +1,12 @@
 # Extended Kalman Filter Project
 Self-Driving Car Engineering Nanodegree Program Kalman Filter + Extended Kalman Filter project code. 
 
-Kalman 
+Kalman Filter is a linear quadratic estimator, which estimates of unknown variables that tend to be more precise than those based on a single measurement alone, by using Bayesian inference and joint probability. Given noisy sensor data, Kalman filter estimates the state of the moving object. EKF is the non-linear version of KF.
+
+We used KF for Lidar data and EKF for Radar data and combined all these to predict state of the object.
+
+https://en.wikipedia.org/wiki/Kalman_filter
+https://en.wikipedia.org/wiki/Extended_Kalman_filter
 
 ---
 
